@@ -1,8 +1,8 @@
 class Edge:
     # Constructor, Time O(1) Space O(1)
-    def __init__(self, v, w):
-        self.connectedVertex = v
-        self.weight = w
+    def __init__(self, vertex, weight):
+        self.connectedVertex = vertex
+        self.weight = weight
 
     # Time O(1) Space O(1)
     def __str__(self):
@@ -15,18 +15,18 @@ class GraphWeighted:
         self.adj = {}
 
     # Add edges including adding nodes, Time O(1) Space O(1)
-    def addEdge(self, a, b, w):
-        if a not in self.adj:
-            self.adj[a] = []
-        if b not in self.adj:
-            self.adj[b] = []
-        edge1 = Edge(b, w)
-        self.adj[a].append(edge1)
-        edge2 = Edge(a, w)
-        self.adj[b].append(edge2)
+    def add_edge(self, first_vertex, second_vertex, weight):
+        if first_vertex not in self.adj:
+            self.adj[first_vertex] = []
+        if second_vertex not in self.adj:
+            self.adj[second_vertex] = []
+        edge1 = Edge(second_vertex, weight)
+        self.adj[first_vertex].append(edge1)
+        edge2 = Edge(first_vertex, weight)
+        self.adj[second_vertex].append(edge2)
 
     # Find the edge between two nodes, Time O(n) Space O(1), n is number of neighbors
-    def findEdgeByVertex(self, a, b):
+    def find_edge_by_vertex(self, a, b):
         ne = self.adj.get(a)
         for edge in ne:
             if edge.connectedVertex == b:
@@ -34,56 +34,56 @@ class GraphWeighted:
         return None
 
     # Remove direct connection between a and b, Time O(1) Space O(1)
-    def removeEdge(self, a, b):
-        ne1 = self.adj[a]
-        ne2 = self.adj[b]
+    def remove_edge(self, first_vertex, second_vertex):
+        ne1 = self.adj[first_vertex]
+        ne2 = self.adj[second_vertex]
         if ne1 is None or ne2 is None:
             return
-        edge1 = self.findEdgeByVertex(a, b)
+        edge1 = self.find_edge_by_vertex(first_vertex, second_vertex)
         ne1.remove(edge1)
-        edge2 = self.findEdgeByVertex(b, a)
+        edge2 = self.find_edge_by_vertex(second_vertex, first_vertex)
         ne2.remove(edge2)
 
     # Remove a node including all its edges,
     # Time O(v) Space O(1), V is number of vertices in graph
-    def removeNode(self, a):
+    def remove_node(self, a):
         ne1 = self.adj[a]
         for edge in ne1:
-            edge1 = self.findEdgeByVertex(edge.connectedVertex, a)
+            edge1 = self.find_edge_by_vertex(edge.connectedVertex, a)
             self.adj[edge.connectedVertex].remove(edge1)
 
         self.adj.pop(a)
 
     # Check whether there is node by its key, Time O(1) Space O(1)
-    def hasNode(self, key):
+    def has_node(self, key):
         return key in self.adj.keys()
 
     # Check whether there is direct connection between two nodes, Time O(n), Space O(1)
     def hasEdge(self, a, b):
-        edge1 = self.findEdgeByVertex(a, b)
-        edge2 = self.findEdgeByVertex(b, a)
+        edge1 = self.find_edge_by_vertex(a, b)
+        edge2 = self.find_edge_by_vertex(b, a)
         return edge1 is not None and edge2 is not None
 
     # Check there is path from src and dest
     # DFS, Time O(V+E), Space O(V)
-    def hasPathDfs(self, src, dest):
+    def has_path_dfs(self, src, dest):
         visited = {}
-        return self.dfsHelper(src, dest, visited)
+        return self.dfs_helper(src, dest, visited)
 
     # DFS helper, Time O(V+E), Space O(V)
-    def dfsHelper(self, v, dest, visited):
+    def dfs_helper(self, v, dest, visited):
         if v == dest:
             return True
         visited[v] = True
         for edge in self.adj[v]:
             u = edge.connectedVertex
             if u not in visited:
-                return self.dfsHelper(u, dest, visited)
+                return self.dfs_helper(u, dest, visited)
         return False
 
     # Check there is path from src and dest
     # BFS, Time O(V+E), Space O(V)
-    def hasPathBfs(self, src, dest):
+    def has_path_bfs(self, src, dest):
         visited = {}
         q = []
         visited[src] = True
@@ -100,7 +100,7 @@ class GraphWeighted:
         return False
 
     # Print graph as hashmap, Time O(V+E), Space O(1)
-    def printGraph(self):
+    def print_graph(self):
         for k, v in self.adj.items():
             print(str(k) + "-", end="")
             for edge in v:
@@ -108,7 +108,7 @@ class GraphWeighted:
             print()
 
     # Traversal starting from src, DFS, Time O(V+E), Space O(V)
-    def dfsTraversal(self, src):
+    def dfs_traversal(self, src):
         visited = {}
         self.helper(src, visited)
         print()
@@ -123,7 +123,7 @@ class GraphWeighted:
                 self.helper(u, visited)
 
     # Traversal starting from src, BFS, Time O(V+E), Space O(V)
-    def bfsTraversal(self, src):
+    def bfs_traversal(self, src):
         q = []
         visited = {}
         q.append(src)
@@ -140,34 +140,34 @@ class GraphWeighted:
 
 
 g = GraphWeighted()
-g.addEdge(1, 2, 26)
-g.addEdge(1, 3, 13)
-g.addEdge(1, 4, 28)
-g.addEdge(3, 4, 19)
+g.add_edge(1, 2, 26)
+g.add_edge(1, 3, 13)
+g.add_edge(1, 4, 28)
+g.add_edge(3, 4, 19)
 print("undirected graph:")
-g.printGraph()
+g.print_graph()
 print("dfs:")
-g.dfsTraversal(1)
+g.dfs_traversal(1)
 print("bfs:")
-g.bfsTraversal(1)
+g.bfs_traversal(1)
 
-print("has node 3:" + str(g.hasNode(3)))
-print("has node 5:" + str(g.hasNode(5)))
+print("has node 3:" + str(g.has_node(3)))
+print("has node 5:" + str(g.has_node(5)))
 print("has edge 3,2: " + str(g.hasEdge(3, 2)))
 print("has edge 3,1: " + str(g.hasEdge(3, 1)))
-print("has path 2,3 (DFS): " + str(g.hasPathDfs(2, 3)))
-print("has path 2,5 (DFS): " + str(g.hasPathDfs(2, 5)))
-print("has path 2,3 (BFS): " + str(g.hasPathBfs(2, 3)))
-print("has path 2,5 (BFS): " + str(g.hasPathBfs(2, 5)))
+print("has path 2,3 (DFS): " + str(g.has_path_dfs(2, 3)))
+print("has path 2,5 (DFS): " + str(g.has_path_dfs(2, 5)))
+print("has path 2,3 (BFS): " + str(g.has_path_bfs(2, 3)))
+print("has path 2,5 (BFS): " + str(g.has_path_bfs(2, 5)))
 
-g.removeEdge(3, 4)
+g.remove_edge(3, 4)
 print("after remove edge:")
-g.printGraph()
-g.addEdge(3, 4, 20)
+g.print_graph()
+g.add_edge(3, 4, 20)
 print("after add back edge:")
-g.printGraph()
+g.print_graph()
 
-g.removeNode(1)
+g.remove_node(1)
 print("after remove node:")
-g.printGraph()
+g.print_graph()
 print()

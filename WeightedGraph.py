@@ -1,12 +1,12 @@
 class Edge:
     # Constructor, Time O(1) Space O(1)
-    def __init__(self, vertex, weight):
-        self.connectedVertex = vertex
-        self.weight = weight
+    def __init__(self, v, w):
+        self.connected_vertex = v
+        self.weight = w
 
     # Time O(1) Space O(1)
     def __str__(self):
-        return "(" + str(self.connectedVertex) + "," + str(self.weight) + ")"
+        return "(" + str(self.connected_vertex) + "," + str(self.weight) + ")"
 
 
 class GraphWeighted:
@@ -15,33 +15,33 @@ class GraphWeighted:
         self.adj = {}
 
     # Add edges including adding nodes, Time O(1) Space O(1)
-    def add_edge(self, first_vertex, second_vertex, weight):
-        if first_vertex not in self.adj:
-            self.adj[first_vertex] = []
-        if second_vertex not in self.adj:
-            self.adj[second_vertex] = []
-        edge1 = Edge(second_vertex, weight)
-        self.adj[first_vertex].append(edge1)
-        edge2 = Edge(first_vertex, weight)
-        self.adj[second_vertex].append(edge2)
+    def add_edge(self, a, b, w):
+        if a not in self.adj:
+            self.adj[a] = []
+        if b not in self.adj:
+            self.adj[b] = []
+        edge1 = Edge(b, w)
+        self.adj[a].append(edge1)
+        edge2 = Edge(a, w)
+        self.adj[b].append(edge2)
 
     # Find the edge between two nodes, Time O(n) Space O(1), n is number of neighbors
     def find_edge_by_vertex(self, a, b):
         ne = self.adj.get(a)
         for edge in ne:
-            if edge.connectedVertex == b:
+            if edge.connected_vertex == b:
                 return edge
         return None
 
     # Remove direct connection between a and b, Time O(1) Space O(1)
-    def remove_edge(self, first_vertex, second_vertex):
-        ne1 = self.adj[first_vertex]
-        ne2 = self.adj[second_vertex]
+    def remove_edge(self, a, b):
+        ne1 = self.adj[a]
+        ne2 = self.adj[b]
         if ne1 is None or ne2 is None:
             return
-        edge1 = self.find_edge_by_vertex(first_vertex, second_vertex)
+        edge1 = self.find_edge_by_vertex(a, b)
         ne1.remove(edge1)
-        edge2 = self.find_edge_by_vertex(second_vertex, first_vertex)
+        edge2 = self.find_edge_by_vertex(b, a)
         ne2.remove(edge2)
 
     # Remove a node including all its edges,
@@ -49,8 +49,8 @@ class GraphWeighted:
     def remove_node(self, a):
         ne1 = self.adj[a]
         for edge in ne1:
-            edge1 = self.find_edge_by_vertex(edge.connectedVertex, a)
-            self.adj[edge.connectedVertex].remove(edge1)
+            edge1 = self.find_edge_by_vertex(edge.connected_vertex, a)
+            self.adj[edge.connected_vertex].remove(edge1)
 
         self.adj.pop(a)
 
@@ -76,7 +76,7 @@ class GraphWeighted:
             return True
         visited[v] = True
         for edge in self.adj[v]:
-            u = edge.connectedVertex
+            u = edge.connected_vertex
             if u not in visited:
                 return self.dfs_helper(u, dest, visited)
         return False
@@ -93,7 +93,7 @@ class GraphWeighted:
             if v == dest:
                 return True
             for edge in self.adj[v]:
-                u = edge.connectedVertex
+                u = edge.connected_vertex
                 if u not in visited:
                     q.append(u)
                     visited[u] = True
@@ -118,7 +118,7 @@ class GraphWeighted:
         visited[v] = True
         print(str(v) + " ", end="")
         for edge in self.adj[v]:
-            u = edge.connectedVertex
+            u = edge.connected_vertex
             if u not in visited:
                 self.helper(u, visited)
 
@@ -132,7 +132,7 @@ class GraphWeighted:
             v = q.pop(0)
             print(str(v) + " ", end="")
             for edge in self.adj[v]:
-                u = edge.connectedVertex
+                u = edge.connected_vertex
                 if u not in visited:
                     q.append(u)
                     visited[u] = True

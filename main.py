@@ -20,7 +20,7 @@ graph.bfs_traversal(1)
 
 print("Order: " + str(graph.get_order()))
 
-print("Number of vertices: " + str(graph.get_size()))
+print("Number of vertices: " + str(graph.numbers_of_edges()))
 
 print("has node 3:" + str(graph.has_node(3)))
 print("has node 5:" + str(graph.has_node(5)))

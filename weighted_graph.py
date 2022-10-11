@@ -155,29 +155,14 @@ class GraphWeighted:
                         dist[edge.connected_vertex] = dist[k] + edge.weight
         return dist
 
-    # # Closeness centrality of a weighted graph
-    # def closeness_centrality(self, v):
-    #     dist = self.dijkstra(v)
-    #     sum = 0
-    #     for k, v in dist.items():
-    #         sum += v
-    #     return (self.v_number - 1) / sum
-    #
-    # # Dijkstra algorithm, Time O(V^2), Space O(V)
-    # def dijkstra(self, src):
-    #     dist = {}
-    #     for k, v in self.adj.items():
-    #         dist[k] = float("inf")
-    #     dist[src] = 0
-    #     visited = {}
-    #     for i in range(self.v_number):
-    #         u = self.min_distance(dist, visited)
-    #         visited[u] = True
-    #         for edge in self.adj[u]:
-    #             v = edge.connected_vertex
-    #             if v not in visited and dist[u] + edge.weight < dist[v]:
-    #                 dist[v] = dist[u] + edge.weight
-    #     return dist
+    # Closeness centrality of a weighted non-directional graph using ford_moore_bellman
+    # Time O(V*E), Space O(V)
+    def closeness_centrality(self, src):
+        dist = self.ford_moore_bellman(src)
+        sum = 0
+        for k, v in dist.items():
+            sum += v
+        return 1 / sum
 
     # Print graph as hashmap, Time O(V+E), Space O(1)
     def print_graph(self):

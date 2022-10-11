@@ -40,7 +40,7 @@ print("Eccentricity of 2: " + str(graph.eccentricity(2)))
 
 print("Eccentricity of 4: " + str(graph.eccentricity(4)))
 
-# print("Closeness Centrality 3: " + str(graph.closeness_centrality(3)))
+print("Closeness Centrality 3: " + str(graph.closeness_centrality(3)))
 
 # print("has node 3:" + str(graph.has_node(3)))
 # print("has node 5:" + str(graph.has_node(5)))

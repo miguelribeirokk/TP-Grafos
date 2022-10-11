@@ -100,8 +100,11 @@ class GraphWeighted:
                     visited[u] = True
         return False
 
-    def get_size(self):
-        return len(self.adj)
+    def numbers_of_edges(self):
+        count = 0
+        for k, v in self.adj.items():
+            count += len(v)
+        return count // 2
 
     def get_order(self):
         return self.v_number

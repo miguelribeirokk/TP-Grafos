@@ -155,6 +155,36 @@ class GraphWeighted:
                         dist[edge.connected_vertex] = dist[k] + edge.weight
         return dist
 
+    # diameter of a graph
+    # Time O(V*V*E), Space O(V)
+    def diameter(self):
+        max = 0
+        for k, v in self.adj.items():
+            e = self.eccentricity(k)
+            if e > max:
+                max = e
+        return max
+
+    # center of a graph
+    # Time O(V*V*E), Space O(V)
+    def center(self):
+        min = self.v_number
+        for k, v in self.adj.items():
+            e = self.eccentricity(k)
+            if e < min:
+                min = e
+        return min
+
+    # radius of a graph
+    # Time O(V*V*E), Space O(V)
+    def radius(self):
+        min = self.v_number
+        for k, v in self.adj.items():
+            e = self.eccentricity(k)
+            if e < min:
+                min = e
+        return min
+
     # Closeness centrality of a weighted non-directional graph using ford_moore_bellman
     # Time O(V*E), Space O(V)
     def closeness_centrality(self, src):

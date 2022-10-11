@@ -59,7 +59,7 @@ class GraphWeighted:
         return key in self.adj.keys()
 
     # Check whether there is direct connection between two nodes, Time O(n), Space O(1)
-    def hasEdge(self, a, b):
+    def has_edge(self, a, b):
         edge1 = self.find_edge_by_vertex(a, b)
         edge2 = self.find_edge_by_vertex(b, a)
         return edge1 is not None and edge2 is not None
@@ -137,37 +137,3 @@ class GraphWeighted:
                     q.append(u)
                     visited[u] = True
         print()
-
-
-g = GraphWeighted()
-g.add_edge(1, 2, 26)
-g.add_edge(1, 3, 13)
-g.add_edge(1, 4, 28)
-g.add_edge(3, 4, 19)
-print("undirected graph:")
-g.print_graph()
-print("dfs:")
-g.dfs_traversal(1)
-print("bfs:")
-g.bfs_traversal(1)
-
-print("has node 3:" + str(g.has_node(3)))
-print("has node 5:" + str(g.has_node(5)))
-print("has edge 3,2: " + str(g.hasEdge(3, 2)))
-print("has edge 3,1: " + str(g.hasEdge(3, 1)))
-print("has path 2,3 (DFS): " + str(g.has_path_dfs(2, 3)))
-print("has path 2,5 (DFS): " + str(g.has_path_dfs(2, 5)))
-print("has path 2,3 (BFS): " + str(g.has_path_bfs(2, 3)))
-print("has path 2,5 (BFS): " + str(g.has_path_bfs(2, 5)))
-
-g.remove_edge(3, 4)
-print("after remove edge:")
-g.print_graph()
-g.add_edge(3, 4, 20)
-print("after add back edge:")
-g.print_graph()
-
-g.remove_node(1)
-print("after remove node:")
-g.print_graph()
-print()

@@ -124,31 +124,60 @@ class GraphWeighted:
             seq.append(len(v))
         return seq
 
-    
-        #using weighted
-  
-   
+    def graph_center(self):
+        min = self.v_number
+        for k, v in self.adj.items():
+            if len(v) < min:
+                min = len(v)
+        return min
 
+    # Eccentricity of a weighted grapg using ford_moore_bellman
+    # Time O(V*E), Space O(V)
+    def eccentricity(self, src):
+        dist = self.ford_moore_bellman(src)
+        max = 0
+        for k, v in dist.items():
+            if v > max:
+                max = v
+        return max
 
+    # Ford-Moore-Bellman for non-directional weighted graph without negative cycle
+    # Time O(V*E), Space O(V)
+    def ford_moore_bellman(self, src):
+        dist = {}
+        for k, v in self.adj.items():
+            dist[k] = float("inf")
+        dist[src] = 0
+        for i in range(self.v_number):
+            for k, v in self.adj.items():
+                for edge in v:
+                    if dist[k] + edge.weight < dist[edge.connected_vertex]:
+                        dist[edge.connected_vertex] = dist[k] + edge.weight
+        return dist
 
-        #use weight to find the highest distance between nodes
-    '''def get_highest_distance_between_nodes(self, v, src):
-        visited = {}
-        return self.highest_distance_between_nodes_helper(v, src, visited)
-
-    def highest_distance_between_nodes_helper(self, v, src, visited):
-        visited[src] = True
-        highest = 0
-        for edge in self.adj[src]:
-            u = edge.connected_vertex
-            if u not in visited:
-                highest = max(highest, edge.weight + self.highest_distance_between_nodes_helper(v, u, visited))
-        return highest'''
-
-
-
-
-
+    # # Closeness centrality of a weighted graph
+    # def closeness_centrality(self, v):
+    #     dist = self.dijkstra(v)
+    #     sum = 0
+    #     for k, v in dist.items():
+    #         sum += v
+    #     return (self.v_number - 1) / sum
+    #
+    # # Dijkstra algorithm, Time O(V^2), Space O(V)
+    # def dijkstra(self, src):
+    #     dist = {}
+    #     for k, v in self.adj.items():
+    #         dist[k] = float("inf")
+    #     dist[src] = 0
+    #     visited = {}
+    #     for i in range(self.v_number):
+    #         u = self.min_distance(dist, visited)
+    #         visited[u] = True
+    #         for edge in self.adj[u]:
+    #             v = edge.connected_vertex
+    #             if v not in visited and dist[u] + edge.weight < dist[v]:
+    #                 dist[v] = dist[u] + edge.weight
+    #     return dist
 
     # Print graph as hashmap, Time O(V+E), Space O(1)
     def print_graph(self):

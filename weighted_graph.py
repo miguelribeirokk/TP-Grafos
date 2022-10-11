@@ -11,7 +11,8 @@ class Edge:
 
 class GraphWeighted:
     # Constructor, Time O(1) Space O(1)
-    def __init__(self):
+    def __init__(self, v_number):
+        self.v_number = v_number
         self.adj = {}
 
     # Add edges including adding nodes, Time O(1) Space O(1)
@@ -98,6 +99,12 @@ class GraphWeighted:
                     q.append(u)
                     visited[u] = True
         return False
+
+    def get_size(self):
+        return len(self.adj)
+
+    def get_order(self):
+        return self.v_number
 
     # Print graph as hashmap, Time O(V+E), Space O(1)
     def print_graph(self):

@@ -4,7 +4,7 @@ graph = GraphWeighted(5)
 
 graph.add_edge(1, 2, 1.2)
 graph.add_edge(2, 5, 2.3)
-graph.add_edge(3, 5, 8.4)
+graph.add_edge(3, 5, -8.4)
 graph.add_edge(3, 4, 0.3)
 graph.add_edge(4, 5, 4.6)
 graph.add_edge(1, 5, 0.1)
@@ -21,6 +21,16 @@ graph.bfs_traversal(1)
 print("Order: " + str(graph.get_order()))
 
 print("Number of vertices: " + str(graph.numbers_of_edges()))
+
+print("Neighbors of 5: " + str(graph.get_neighbors(5)))
+
+print("Degree of 5: " + str(graph.degree_of_node(5)))
+
+print("Degree sequence: " + str(graph.degree_sequence()))
+
+
+
+
 
 print("has node 3:" + str(graph.has_node(3)))
 print("has node 5:" + str(graph.has_node(5)))

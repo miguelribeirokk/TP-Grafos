@@ -109,6 +109,47 @@ class GraphWeighted:
     def get_order(self):
         return self.v_number
 
+    def get_neighbors(self, v):
+        list = []
+        for edge in self.adj[v]:
+            list.append(edge.connected_vertex)
+        return list
+
+    def degree_of_node(self, v):
+        return len(self.adj[v])
+
+    def degree_sequence(self):
+        seq = []
+        for k, v in self.adj.items():
+            seq.append(len(v))
+        return seq
+
+    
+        #using weighted
+  
+   
+
+
+
+        #use weight to find the highest distance between nodes
+    '''def get_highest_distance_between_nodes(self, v, src):
+        visited = {}
+        return self.highest_distance_between_nodes_helper(v, src, visited)
+
+    def highest_distance_between_nodes_helper(self, v, src, visited):
+        visited[src] = True
+        highest = 0
+        for edge in self.adj[src]:
+            u = edge.connected_vertex
+            if u not in visited:
+                highest = max(highest, edge.weight + self.highest_distance_between_nodes_helper(v, u, visited))
+        return highest'''
+
+
+
+
+
+
     # Print graph as hashmap, Time O(V+E), Space O(1)
     def print_graph(self):
         for k, v in self.adj.items():

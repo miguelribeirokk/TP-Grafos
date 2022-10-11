@@ -165,16 +165,6 @@ class GraphWeighted:
                 max = e
         return max
 
-    # center of a graph
-    # Time O(V*V*E), Space O(V)
-    def center(self):
-        min = self.v_number
-        for k, v in self.adj.items():
-            e = self.eccentricity(k)
-            if e < min:
-                min = e
-        return min
-
     # radius of a graph
     # Time O(V*V*E), Space O(V)
     def radius(self):

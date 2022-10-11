@@ -2,35 +2,34 @@ from weighted_graph import *
 
 graph = GraphWeighted(5)
 
-graph.add_edge(1, 2, 1.2)
-graph.add_edge(2, 5, 2.3)
-graph.add_edge(3, 5, 8.4)
-graph.add_edge(3, 4, 0.3)
-graph.add_edge(4, 5, 4.6)
-graph.add_edge(1, 5, 0.1)
+with open("teste.txt") as f:
+    for line in f:
+        line = line.strip()
+        if line:
+            line = line.split()
+            if len(line) == 3:
+                graph.add_edge(int(line[0]), int(line[1]), float(line[2]))
 
-# print("undirected graph:")
-# graph.print_graph()
-#
-# print("dfs:")
-# graph.dfs_traversal(1)
-#
-# print("bfs:")
-# graph.bfs_traversal(1)
-#
-# print("Order: " + str(graph.get_order()))
-#
-# print("Number of vertices: " + str(graph.numbers_of_edges()))
-#
-# print("Neighbors of 5: " + str(graph.get_neighbors(5)))
-#
-# print("Degree of 5: " + str(graph.degree_of_node(5)))
-#
-# print("Degree sequence: " + str(graph.degree_sequence()))
-#
-# print("Graph center: " + str(graph.graph_center()))
+print("undirected graph:")
+graph.print_graph()
 
-# print("Shortest distance between 1 and 2: " + str(graph.dijkstra(1)))
+print("dfs:")
+graph.dfs_traversal(1)
+
+print("bfs:")
+graph.bfs_traversal(1)
+
+print("Order: " + str(graph.get_order()))
+
+print("Number of vertices: " + str(graph.numbers_of_edges()))
+
+print("Neighbors of 5: " + str(graph.get_neighbors(5)))
+
+print("Degree of 5: " + str(graph.degree_of_node(5)))
+
+print("Degree sequence: " + str(graph.degree_sequence()))
+
+print("Graph center: " + str(graph.graph_center()))
 
 print("Eccentricity of 3: " + str(graph.eccentricity(3)))
 

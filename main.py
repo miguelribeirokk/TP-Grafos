@@ -1,14 +1,11 @@
 from weighted_graph import *
 
-graph = GraphWeighted(5)
-
-with open("teste.txt") as f:
+with open("teste.txt", "r") as f:
+    v_number = int(f.readline())
+    graph = GraphWeighted(v_number)
     for line in f:
-        line = line.strip()
-        if line:
-            line = line.split()
-            if len(line) == 3:
-                graph.add_edge(int(line[0]), int(line[1]), float(line[2]))
+        a, b, w = line.split()
+        graph.add_edge(int(a), int(b), float(w))
 
 print("undirected graph:")
 graph.print_graph()

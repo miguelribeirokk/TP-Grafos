@@ -26,146 +26,106 @@ class GraphWeighted:
         edge2 = Edge(a, w)
         self.adj[b].append(edge2)
 
-    # Find the edge between two nodes, Time O(n) Space O(1), n is number of neighbors
-    def find_edge_by_vertex(self, a, b):
-        ne = self.adj.get(a)
-        for edge in ne:
-            if edge.connected_vertex == b:
-                return edge
-        return None
+    # # Find the edge between two nodes, Time O(n) Space O(1), n is number of neighbors
+    # def find_edge_by_vertex(self, a, b):
+    #     ne = self.adj.get(a)
+    #     for edge in ne:
+    #         if edge.connected_vertex == b:
+    #             return edge
+    #     return None
+    #
+    # # Remove direct connection between a and b, Time O(1) Space O(1)
+    # def remove_edge(self, a, b):
+    #     ne1 = self.adj[a]
+    #     ne2 = self.adj[b]
+    #     if ne1 is None or ne2 is None:
+    #         return
+    #     edge1 = self.find_edge_by_vertex(a, b)
+    #     ne1.remove(edge1)
+    #     edge2 = self.find_edge_by_vertex(b, a)
+    #     ne2.remove(edge2)
+    #
+    # # Remove a node including all its edges,
+    # # Time O(v) Space O(1), V is number of vertices in graph
+    # def remove_node(self, a):
+    #     ne1 = self.adj[a]
+    #     for edge in ne1:
+    #         edge1 = self.find_edge_by_vertex(edge.connected_vertex, a)
+    #         self.adj[edge.connected_vertex].remove(edge1)
+    #
+    #     self.adj.pop(a)
 
-    # Remove direct connection between a and b, Time O(1) Space O(1)
-    def remove_edge(self, a, b):
-        ne1 = self.adj[a]
-        ne2 = self.adj[b]
-        if ne1 is None or ne2 is None:
-            return
-        edge1 = self.find_edge_by_vertex(a, b)
-        ne1.remove(edge1)
-        edge2 = self.find_edge_by_vertex(b, a)
-        ne2.remove(edge2)
-
-    # Remove a node including all its edges,
-    # Time O(v) Space O(1), V is number of vertices in graph
-    def remove_node(self, a):
-        ne1 = self.adj[a]
-        for edge in ne1:
-            edge1 = self.find_edge_by_vertex(edge.connected_vertex, a)
-            self.adj[edge.connected_vertex].remove(edge1)
-
-        self.adj.pop(a)
-
-    # Check whether there is node by its key, Time O(1) Space O(1)
-    def has_node(self, key):
-        return key in self.adj.keys()
-
-    # Check whether there is direct connection between two nodes, Time O(n), Space O(1)
-    def has_edge(self, a, b):
-        edge1 = self.find_edge_by_vertex(a, b)
-        edge2 = self.find_edge_by_vertex(b, a)
-        return edge1 is not None and edge2 is not None
-
-    # Check there is path from src and dest
-    # DFS, Time O(V+E), Space O(V)
-    def has_path_dfs(self, src, dest):
-        visited = {}
-        return self.dfs_helper(src, dest, visited)
-
-    # DFS helper, Time O(V+E), Space O(V)
-    def dfs_helper(self, v, dest, visited):
-        if v == dest:
-            return True
-        visited[v] = True
-        for edge in self.adj[v]:
-            u = edge.connected_vertex
-            if u not in visited:
-                return self.dfs_helper(u, dest, visited)
-        return False
-
-    # Check there is path from src and dest
-    # BFS, Time O(V+E), Space O(V)
-    def has_path_bfs(self, src, dest):
-        visited = {}
-        q = []
-        visited[src] = True
-        q.append(src)
-        while q:
-            v = q.pop(0)
-            if v == dest:
-                return True
-            for edge in self.adj[v]:
-                u = edge.connected_vertex
-                if u not in visited:
-                    q.append(u)
-                    visited[u] = True
-        return False
-
-    def numbers_of_edges(self):
-        count = 0
-        for k, v in self.adj.items():
-            count += len(v)
-        return count // 2
-
+    # Get order of a weighted non-directional graph
+    # Time O(1), Space O(1)
     def get_order(self):
         return self.v_number
 
-    def get_neighbors(self, v):
-        list = []
-        for edge in self.adj[v]:
-            list.append(edge.connected_vertex)
-        return list
+    # Size of a weighted non-directional graph
+    # Time O(V+E), Space O(V)
+    def size(self):
+        return len(self.adj)
 
-    def degree_of_node(self, v):
+    # Neighbours of a weighted non-directional graph
+    # Time O(1), Space O(1)
+    def get_neighbours(self, v):
+        edges = []
+        for edge in self.adj[v]:
+            edges.append(edge.connected_vertex)
+        return edges
+
+    # Degree of a vertex of a weighted non-directional graph
+    # Time O(1), Space O(1)
+    def degree_of_vertex(self, v):
         return len(self.adj[v])
 
+    # Degree sequence of a weighted non-directional graph
+    # Time O(V+E), Space O(V)
     def degree_sequence(self):
-        seq = []
+        degree = []
         for k, v in self.adj.items():
-            seq.append(len(v))
-        return seq
+            degree.append(len(v))
+        return degree
 
-    def graph_center(self):
-        min = self.v_number
-        for k, v in self.adj.items():
-            if len(v) < min:
-                min = len(v)
-        return min
-
-    # Eccentricity of a weighted grapg using ford_moore_bellman
-    # Time O(V*E), Space O(V)
-    def eccentricity(self, src):
-        dist = self.ford_moore_bellman(src)
-        max = 0
-        for k, v in dist.items():
-            if v > max:
-                max = v
-        return max
-
-    # Ford-Moore-Bellman for non-directional weighted graph without negative cycle
-    # Time O(V*E), Space O(V)
-    def ford_moore_bellman(self, src):
-        dist = {}
-        for k, v in self.adj.items():
-            dist[k] = float("inf")
-        dist[src] = 0
-        for i in range(self.v_number):
-            for k, v in self.adj.items():
-                for edge in v:
-                    if dist[k] + edge.weight < dist[edge.connected_vertex]:
-                        dist[edge.connected_vertex] = dist[k] + edge.weight
-        return dist
-
-    # diameter of a graph
+    # Get eccentricity of a vertex of a weighted non-directional graph using dijkstra algorithm
     # Time O(V*V*E), Space O(V)
-    def diameter(self):
+    def eccentricity(self, src):
         max = 0
         for k, v in self.adj.items():
-            e = self.eccentricity(k)
-            if e > max:
-                max = e
+            d = self.dijkstra(src, k)
+            if d > max:
+                max = d
         return max
 
-    # radius of a graph
+    # Dijkstra algorithm to find shortest path from src to dest
+    # Time O(V*V*E), Space O(V)
+    def dijkstra(self, src, dest):
+        visited = {}
+        distance = {}
+        for k, v in self.adj.items():
+            distance[k] = float("inf")
+        distance[src] = 0
+        for k, v in self.adj.items():
+            u = self.min_distance(distance, visited)
+            visited[u] = True
+            for edge in self.adj[u]:
+                if edge.connected_vertex not in visited:
+                    d = distance[u] + edge.weight
+                    if d < distance[edge.connected_vertex]:
+                        distance[edge.connected_vertex] = d
+        return distance[dest]
+
+    # Find the vertex with minimum distance
+    # Time O(V), Space O(1)
+    def min_distance(self, distance, visited):
+        min = float("inf")
+        min_index = None
+        for k, v in distance.items():
+            if k not in visited and v < min:
+                min = v
+                min_index = k
+        return min_index
+
+    # Radius of a weighted non-directional graph
     # Time O(V*V*E), Space O(V)
     def radius(self):
         min = self.v_number
@@ -175,50 +135,76 @@ class GraphWeighted:
                 min = e
         return min
 
-    # Closeness centrality of a weighted non-directional graph using ford_moore_bellman
-    # Time O(V*E), Space O(V)
-    def closeness_centrality(self, src):
-        dist = self.ford_moore_bellman(src)
-        sum = 0
-        for k, v in dist.items():
-            sum += v
-        return 1 / sum
-
-    # Print graph as hashmap, Time O(V+E), Space O(1)
-    def print_graph(self):
+    # Diameter of a weighted non-directional graph
+    # Time O(V*V*E), Space O(V)
+    def diameter(self):
+        max = 0
         for k, v in self.adj.items():
-            print(str(k) + "-", end="")
-            for edge in v:
-                print(edge, end="")
-            print()
+            e = self.eccentricity(k)
+            if e > max:
+                max = e
+        return max
 
-    # Traversal starting from src, DFS, Time O(V+E), Space O(V)
-    def dfs_traversal(self, src):
+    # Center of a weighted non-directional graph
+    # Time O(V*V*E), Space O(V)
+    def center(self):
+        ecc = {}
+        for k, v in self.adj.items():
+            ecc[k] = self.eccentricity(k)
+        min = self.v_number
+        for k, v in ecc.items():
+            if v < min:
+                min = v
+                min_index = k
+        return min_index
+
+    # Get sequence of vertex of dfs traversal
+    # Time O(V+E), Space O(V)
+    def dfs(self, v):
         visited = {}
-        self.helper(src, visited)
-        print()
+        sequence = []
+        self.dfs_util(v, visited, sequence)
+        return sequence
 
-    # DFS helper, Time O(V+E), Space O(V)
-    def helper(self, v, visited):
+    # Util function for dfs
+    # Time O(V+E), Space O(V)
+    def dfs_util(self, v, visited, sequence):
         visited[v] = True
-        print(str(v) + " ", end="")
+        sequence.append(v)
         for edge in self.adj[v]:
-            u = edge.connected_vertex
-            if u not in visited:
-                self.helper(u, visited)
+            if edge.connected_vertex not in visited:
+                self.dfs_util(edge.connected_vertex, visited, sequence)
 
-    # Traversal starting from src, BFS, Time O(V+E), Space O(V)
-    def bfs_traversal(self, src):
-        q = []
+    # Get sequence of vertex not visited by dfs traversal
+    # Time O(V+E), Space O(V)
+    def dfs_not_visited(self):
         visited = {}
-        q.append(src)
-        visited[src] = True
-        while len(q) > 0:
-            v = q.pop(0)
-            print(str(v) + " ", end="")
-            for edge in self.adj[v]:
-                u = edge.connected_vertex
-                if u not in visited:
-                    q.append(u)
-                    visited[u] = True
-        print()
+        sequence = []
+        for k, v in self.adj.items():
+            if k in visited:
+                self.dfs_util(k, visited, sequence)
+        return sequence
+
+    # Closeness centrality of a weighted non-directional graph using dijkstra algorithm
+    # Time O(V*V*E), Space O(V)
+    def closeness_centrality(self, vertex):
+        sum = 0
+        for k, v in self.adj.items():
+            d = self.dijkstra(vertex, k)
+            sum += d
+        return sum / (self.v_number - 1)
+
+    # Get weighted non-directional graph
+    # Time O(1), Space O(1)
+    def get_graph(self):
+        return self.adj
+
+    # Generate JSON file based on the weighted non-directional graph
+    # Time O(V+E), Space O(V)
+    def generate_json(self):
+        json = {}
+        for k, v in self.adj.items():
+            json[k] = []
+            for edge in v:
+                json[k].append(edge.connected_vertex)
+        return json

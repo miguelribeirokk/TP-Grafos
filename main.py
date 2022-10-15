@@ -37,10 +37,10 @@ print("\nGraph\n"
       f"DFS traversal: {graph.dfs(1)}\n"
       f"Not in DFS traversal: {graph.dfs_not_visited()}\n"
       f"\nMinimum path\n"
-      f"Minimum path between 1 and 2: {graph.dijkstra(1, 2)}\n"
+      f"Minimum path between 1 and 2: {graph.bellman_ford(1)}\n"
       "\nCloseness centralities\n"
       f"Closeness centrality of 1: {graph.closeness_centrality(1)}\n"
       f"Closeness centrality of 2: {graph.closeness_centrality(2)}\n"
       f"Closeness centrality of 3: {graph.closeness_centrality(3)}\n"
       f"\nJSON\n"
-      f"JSON: {graph.generate_json()}\n")
+      f"JSON: {generate_json_file_from_text_file('teste.txt', 'matt.json')}\n")

@@ -26,35 +26,6 @@ class GraphWeighted:
         edge2 = Edge(a, w)
         self.adj[b].append(edge2)
 
-    # # Find the edge between two nodes, Time O(n) Space O(1), n is number of neighbors
-    # def find_edge_by_vertex(self, a, b):
-    #     ne = self.adj.get(a)
-    #     for edge in ne:
-    #         if edge.connected_vertex == b:
-    #             return edge
-    #     return None
-    #
-    # # Remove direct connection between a and b, Time O(1) Space O(1)
-    # def remove_edge(self, a, b):
-    #     ne1 = self.adj[a]
-    #     ne2 = self.adj[b]
-    #     if ne1 is None or ne2 is None:
-    #         return
-    #     edge1 = self.find_edge_by_vertex(a, b)
-    #     ne1.remove(edge1)
-    #     edge2 = self.find_edge_by_vertex(b, a)
-    #     ne2.remove(edge2)
-    #
-    # # Remove a node including all its edges,
-    # # Time O(v) Space O(1), V is number of vertices in graph
-    # def remove_node(self, a):
-    #     ne1 = self.adj[a]
-    #     for edge in ne1:
-    #         edge1 = self.find_edge_by_vertex(edge.connected_vertex, a)
-    #         self.adj[edge.connected_vertex].remove(edge1)
-    #
-    #     self.adj.pop(a)
-
     # Get order of a weighted non-directional graph
     # Time O(1), Space O(1)
     def get_order(self):
@@ -86,44 +57,33 @@ class GraphWeighted:
             degree.append(len(v))
         return degree
 
-    # Get eccentricity of a vertex of a weighted non-directional graph using dijkstra algorithm
-    # Time O(V*V*E), Space O(V)
-    def eccentricity(self, src):
+    # Eccentricity of a vertex of a weighted undirected graph using bellman ford algorithm
+    # Time O(V*E), Space O(V)
+    def eccentricity(self, v):
+        dist = self.bellman_ford(v)
         max = 0
-        for k, v in self.adj.items():
-            d = self.dijkstra(src, k)
-            if d > max:
-                max = d
+        for k, v in dist.items():
+            if v > max:
+                max = v
         return max
 
-    # Dijkstra algorithm to find shortest path from src to dest
-    # Time O(V*V*E), Space O(V)
-    def dijkstra(self, src, dest):
-        visited = {}
-        distance = {}
+    # Bellman ford algorithm of a weighted undirected graph that detects negative cycles
+    # Time O(V*E), Space O(V)
+    def bellman_ford(self, vertex):
+        dist = {}
         for k, v in self.adj.items():
-            distance[k] = float("inf")
-        distance[src] = 0
+            dist[k] = self.v_number
+        dist[vertex] = 0
+        for i in range(self.v_number - 1):
+            for k, v in self.adj.items():
+                for edge in v:
+                    if dist[k] + edge.weight < dist[edge.connected_vertex]:
+                        dist[edge.connected_vertex] = dist[k] + edge.weight
         for k, v in self.adj.items():
-            u = self.min_distance(distance, visited)
-            visited[u] = True
-            for edge in self.adj[u]:
-                if edge.connected_vertex not in visited:
-                    d = distance[u] + edge.weight
-                    if d < distance[edge.connected_vertex]:
-                        distance[edge.connected_vertex] = d
-        return distance[dest]
-
-    # Find the vertex with minimum distance
-    # Time O(V), Space O(1)
-    def min_distance(self, distance, visited):
-        min = float("inf")
-        min_index = None
-        for k, v in distance.items():
-            if k not in visited and v < min:
-                min = v
-                min_index = k
-        return min_index
+            for edge in v:
+                if dist[k] + edge.weight < dist[edge.connected_vertex]:
+                    return dict()
+        return dist
 
     # Radius of a weighted non-directional graph
     # Time O(V*V*E), Space O(V)
@@ -185,26 +145,63 @@ class GraphWeighted:
                 self.dfs_util(k, visited, sequence)
         return sequence
 
-    # Closeness centrality of a weighted non-directional graph using dijkstra algorithm
+    # Closeness centrality of a weighted undirected graph
     # Time O(V*V*E), Space O(V)
-    def closeness_centrality(self, vertex):
+    def closeness_centrality(self, v):
+        dist = self.bellman_ford(v)
         sum = 0
-        for k, v in self.adj.items():
-            d = self.dijkstra(vertex, k)
-            sum += d
-        return sum / (self.v_number - 1)
+        for k, v in dist.items():
+            sum += v
+        if sum == 0:
+            return 0
+        return (self.v_number - 1) / sum
 
     # Get weighted non-directional graph
     # Time O(1), Space O(1)
     def get_graph(self):
         return self.adj
 
-    # Generate JSON file based on the weighted non-directional graph
-    # Time O(V+E), Space O(V)
-    def generate_json(self):
-        json = {}
-        for k, v in self.adj.items():
-            json[k] = []
-            for edge in v:
-                json[k].append(edge.connected_vertex)
-        return json
+
+# Read a json and generate a text file where the first line is the number of vertex and the following lines are the two vertex and the weight without using json library
+# Time O(V+E), Space O(V)
+def generate_text_file_from_json_file(json_file, text_file):
+    with open(json_file, 'r') as f:
+        data = f.read()
+    with open(text_file, 'w') as f:
+        f.write(str(data.count("weight")) + "\n")
+        for i in range(len(data)):
+            if data[i] == "w":
+                f.write(data[i - 1] + " " + data[i + 2] + " " + data[i + 8] + "\n")
+
+
+# Generate json file following the JSON format file
+# Time O(V+E), Space O(V)
+def generate_json_file_from_text_file(text_file, json_file):
+    with open(text_file, 'r') as f:
+        data = f.read()
+    with open(json_file, 'w') as f:
+        f.write("{\n")
+        f.write("  \"graph\": {\n")
+        f.write("    \"nodes\": [\n")
+        for i in range(int(data[0])):
+            f.write("      {\n")
+            f.write("        \"id\": \"" + str(i) + "\",\n")
+            f.write("        \"label\": \"" + str(i) + "\"\n")
+            if i == int(data[0]) - 1:
+                f.write("      }\n")
+            else:
+                f.write("      },\n")
+        f.write("    ],\n")
+        f.write("    \"edges\": [\n")
+        for i in range(int(data[0])):
+            f.write("      {\n")
+            f.write("        \"source\": \"" + str(i) + "\",\n")
+            f.write("        \"target\": \"" + str(i) + "\",\n")
+            f.write("        \"label\": \"" + str(i) + "\"\n")
+            if i == int(data[0]) - 1:
+                f.write("      }\n")
+            else:
+                f.write("      },\n")
+        f.write("    ]\n")
+        f.write("  }\n")
+        f.write("}\n")

@@ -16,13 +16,16 @@ while True:
     except:
         print("File not found!")
 
-    
+   
 with open(file) as f:
-    v_number = int(f.readline())
-    graph = GraphWeighted(v_number)
-    for line in f:
-        a, b, w = line.split()
-        graph.add_edge(int(a), int(b), float(w))
+    try:
+        v_number = int(f.readline())
+        graph = GraphWeighted(v_number)
+        for line in f:
+            a, b, w = line.split()
+            graph.add_edge(int(a), int(b), float(w))
+    except:
+        print("File not formatted correctly!")
 
 
 sequence = graph.get_vertex_sequence()
@@ -79,7 +82,7 @@ for v in sequence:
 while True:
     try:
         file_json = input("\nType the directory of the .json file: ")
-        if os.path.isfile(file):
+        if os.path.isfile(file_json):
             break
         else:
             print("File not found!")

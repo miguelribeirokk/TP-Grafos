@@ -1,5 +1,4 @@
 from audioop import reverse
-import json
 from platform import node
 
 
@@ -60,6 +59,12 @@ class GraphWeighted:
 
     Methods
     -------
+    get_vertex_sequence(self)
+        Returns a sequence of vertex.
+
+    get_first_vertex(self)
+        Returns the first vertex of the graph.
+
     add_edge(self, a, b, w)
         Adds a new edge to the graph.
 
@@ -104,6 +109,9 @@ class GraphWeighted:
 
     closeness_centrality(self, v)
         Returns the closeness centrality of a vertex.
+
+    minimum_path(self, v, w)
+        Returns the minimum path between two vertices.
     """
 
 

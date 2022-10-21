@@ -1,0 +1,350 @@
+{
+  "data": {
+    "nodes": {
+      "_subscribers": {
+        "*": [],
+        "add": [
+          {}
+        ],
+        "remove": [
+          {}
+        ],
+        "update": [
+          {}
+        ]
+      },
+      "_options": {},
+      "_data": {
+        "1": {
+          "id": 1
+        },
+        "2": {
+          "id": 2
+        },
+        "3": {
+          "id": 3
+        },
+        "4": {
+          "id": 4
+        },
+        "5": {
+          "id": 5
+        },
+        "6": {
+          "id": 6
+        },
+        "7": {
+          "id": 7
+        },
+        "8": {
+          "id": 8
+        },
+        "9": {
+          "id": 9
+        },
+        "10": {
+          "id": 10
+        }
+      },
+      "length": 10,
+      "_idProp": "id",
+      "_type": {}
+    },
+    "edges": {
+      "_subscribers": {
+        "*": [],
+        "add": [
+          {}
+        ],
+        "remove": [
+          {}
+        ],
+        "update": [
+          {}
+        ]
+      },
+      "_options": {},
+      "_data": {
+        "1": {
+          "id": 1,
+          "from": 1,
+          "to": 2
+        },
+        "2": {
+          "id": 2,
+          "from": 1,
+          "to": 3
+        },
+        "3": {
+          "id": 3,
+          "from": 1,
+          "to": 4
+        },
+        "4": {
+          "id": 4,
+          "from": 1,
+          "to": 5
+        },
+        "5": {
+          "id": 5,
+          "from": 1,
+          "to": 6
+        },
+        "6": {
+          "id": 6,
+          "from": 1,
+          "to": 7
+        },
+        "7": {
+          "id": 7,
+          "from": 1,
+          "to": 8
+        },
+        "8": {
+          "id": 8,
+          "from": 1,
+          "to": 9
+        },
+        "9": {
+          "id": 9,
+          "from": 10,
+          "to": 1
+        },
+        "10": {
+          "id": 10,
+          "from": 2,
+          "to": 3
+        },
+        "11": {
+          "id": 11,
+          "from": 2,
+          "to": 4
+        },
+        "12": {
+          "id": 12,
+          "from": 2,
+          "to": 5
+        },
+        "13": {
+          "id": 13,
+          "from": 2,
+          "to": 6
+        },
+        "14": {
+          "id": 14,
+          "from": 2,
+          "to": 7
+        },
+        "15": {
+          "id": 15,
+          "from": 2,
+          "to": 8
+        },
+        "16": {
+          "id": 16,
+          "from": 2,
+          "to": 9
+        },
+        "17": {
+          "id": 17,
+          "from": 2,
+          "to": 10
+        },
+        "18": {
+          "id": 18,
+          "from": 3,
+          "to": 4
+        },
+        "19": {
+          "id": 19,
+          "from": 3,
+          "to": 5
+        },
+        "20": {
+          "id": 20,
+          "from": 3,
+          "to": 6
+        },
+        "21": {
+          "id": 21,
+          "from": 3,
+          "to": 7
+        },
+        "22": {
+          "id": 22,
+          "from": 3,
+          "to": 8
+        },
+        "23": {
+          "id": 23,
+          "from": 3,
+          "to": 9
+        },
+        "24": {
+          "id": 24,
+          "from": 3,
+          "to": 10
+        },
+        "25": {
+          "id": 25,
+          "from": 4,
+          "to": 5
+        },
+        "26": {
+          "id": 26,
+          "from": 4,
+          "to": 6
+        },
+        "27": {
+          "id": 27,
+          "from": 4,
+          "to": 7
+        },
+        "28": {
+          "id": 28,
+          "from": 4,
+          "to": 8
+        },
+        "29": {
+          "id": 29,
+          "from": 4,
+          "to": 9
+        },
+        "30": {
+          "id": 30,
+          "from": 4,
+          "to": 10
+        },
+        "31": {
+          "id": 31,
+          "from": 5,
+          "to": 6
+        },
+        "32": {
+          "id": 32,
+          "from": 5,
+          "to": 7
+        },
+        "33": {
+          "id": 33,
+          "from": 5,
+          "to": 8
+        },
+        "34": {
+          "id": 34,
+          "from": 5,
+          "to": 9
+        },
+        "35": {
+          "id": 35,
+          "from": 5,
+          "to": 10
+        },
+        "36": {
+          "id": 36,
+          "from": 6,
+          "to": 7
+        },
+        "37": {
+          "id": 37,
+          "from": 6,
+          "to": 8
+        },
+        "38": {
+          "id": 38,
+          "from": 6,
+          "to": 9
+        },
+        "39": {
+          "id": 39,
+          "from": 6,
+          "to": 10
+        },
+        "40": {
+          "id": 40,
+          "from": 7,
+          "to": 8
+        },
+        "41": {
+          "id": 41,
+          "from": 7,
+          "to": 9
+        },
+        "42": {
+          "id": 42,
+          "from": 7,
+          "to": 10
+        },
+        "43": {
+          "id": 43,
+          "from": 8,
+          "to": 9
+        },
+        "44": {
+          "id": 44,
+          "from": 8,
+          "to": 10
+        },
+        "45": {
+          "id": 45,
+          "from": 9,
+          "to": 10
+        }
+      },
+      "length": 45,
+      "_idProp": "id",
+      "_type": {}
+    }
+  },
+  "options": {
+    "locale": "pt-br",
+    "manipulation": {
+      "enabled": false
+    },
+    "edges": {
+      "font": {
+        "color": "#ffffff",
+        "strokeWidth": 0,
+        "size": 18
+      }
+    },
+    "nodes": {
+      "color": {
+        "border": "#698B69",
+        "background": "#458B74",
+        "highlight": {
+          "border": "#698B69",
+          "background": "#4f6e4f"
+        }
+      },
+      "font": {
+        "color": "white"
+      }
+    },
+    "physics": {
+      "enabled": true,
+      "forceAtlas2Based": {
+        "gravitationalConstant": -50,
+        "centralGravity": 0.01,
+        "springConstant": 0.02,
+        "springLength": 100,
+        "damping": 0.4,
+        "avoidOverlap": 0
+      },
+      "maxVelocity": 50,
+      "minVelocity": 0.1,
+      "solver": "forceAtlas2Based",
+      "stabilization": {
+        "enabled": true,
+        "iterations": 1000,
+        "updateInterval": 100,
+        "onlyDynamicEdges": false,
+        "fit": true
+      },
+      "timestep": 0.5,
+      "adaptiveTimestep": true
+    }
+  },
+  "ponderado": true,
+  "ordenado": false
+}

@@ -480,7 +480,6 @@ class GraphWeighted:
         text_file : str
             text file.
         """
-        #printar no terminal os vertices
         vertex_list = []
 
         with open(json_file) as f:

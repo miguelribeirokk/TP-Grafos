@@ -1,3 +1,8 @@
+from audioop import reverse
+import json
+from platform import node
+
+
 class Edge:
     """
     A class used to represent an edge.
@@ -113,6 +118,37 @@ class GraphWeighted:
         self.v_number = v_number
         self.adj = {}
 
+    #retorna um vertice do grafo
+    def get_vertex_sequence(self):
+        """
+        Returns a sequence of vertex.
+
+        Returns
+        -------
+        a sequence of vertex.
+        """
+            
+        return self.adj.keys()
+
+    def get_first_vertex(self):
+        """
+        Returns the first vertex of the graph.
+
+        Returns
+        -------
+        first vertex of the graph.
+        """
+
+        for k, v in self.adj.items():
+            return k
+
+
+
+
+
+        
+
+
 
     def add_edge(self, a, b, w):
         """
@@ -159,7 +195,10 @@ class GraphWeighted:
         size of the graph.
         """
 
-        return len(self.adj)
+        size = 0
+        for k, v in self.adj.items():
+            size += len(v)
+        return size // 2 
 
 
     def get_neighbours(self, v):
@@ -211,7 +250,10 @@ class GraphWeighted:
         degree = []
         for k, v in self.adj.items():
             degree.append(len(v))
+
+        degree.sort(reverse=True)
         return degree
+    
 
 
     def eccentricity(self, v):
@@ -227,14 +269,13 @@ class GraphWeighted:
         -------
         eccentricity of the vertex.
         """
-
-        dist = self.bellman_ford(v)
-        max = 0
-        for k, v in dist.items():
-            if v > max:
-                max = v
-        return max
-
+            
+        distances = self.bellman_ford(v)
+        max_distance = 0
+        for k, v in distances.items():
+            if v > max_distance:
+                max_distance = v
+        return max_distance
 
     def bellman_ford(self, vertex):
         """
@@ -249,22 +290,20 @@ class GraphWeighted:
         -------
         dictionary of distances.
         """
-
-        dist = {}
+        #bellman ford algorithm, retorna nulo se tiver ciclo negativo
+        distances = {}
         for k, v in self.adj.items():
-            dist[k] = self.v_number
-        dist[vertex] = 0
+            distances[k] = float("inf")
+        distances[vertex] = 0
         for i in range(self.v_number - 1):
             for k, v in self.adj.items():
                 for edge in v:
-                    if dist[k] + edge.weight < dist[edge.connected_vertex]:
-                        dist[edge.connected_vertex] = dist[k] + edge.weight
-        for k, v in self.adj.items():
-            for edge in v:
-                if dist[k] + edge.weight < dist[edge.connected_vertex]:
-                    return dict()
-        return dist
+                    if distances[k] + edge.weight < distances[edge.connected_vertex]:
+                        distances[edge.connected_vertex] = distances[k] + edge.weight
+        return distances
 
+
+        
 
     def radius(self):
         """
@@ -275,12 +314,12 @@ class GraphWeighted:
         radius of the graph.
         """
 
-        min = self.v_number
+        radius = float("inf")
         for k, v in self.adj.items():
-            e = self.eccentricity(k)
-            if e < min:
-                min = e
-        return min
+            eccentricity = self.eccentricity(k)
+            if eccentricity < radius:
+                radius = eccentricity
+        return radius
 
 
     def diameter(self):
@@ -309,15 +348,12 @@ class GraphWeighted:
         center of the graph.
         """
 
-        ecc = {}
+        center = []
+        r = self.radius()
         for k, v in self.adj.items():
-            ecc[k] = self.eccentricity(k)
-        min = self.v_number
-        for k, v in ecc.items():
-            if v < min:
-                min = v
-                min_index = k
-        return min_index
+            if self.eccentricity(k) == r:
+                center.append(k)
+        return center
 
 
     def dfs(self, v):
@@ -381,6 +417,35 @@ class GraphWeighted:
                 self.dfs_util(k, visited, sequence)
         return sequence
 
+    def minimum_path(self, a, b):
+        """
+        Returns the minimum path between two vertices using dijkstra algorithm.
+
+        Parameters
+        ----------
+        a : int
+            first vertex.
+        b : int
+            second vertex.
+
+        Returns
+        -------
+        list of vertices in the minimum path.
+        """
+
+        distances = self.bellman_ford(a)
+        path = []
+        path.append(b)
+        while b != a:
+            for edge in self.adj[b]:
+                if distances[edge.connected_vertex] + edge.weight == distances[b]:
+                    b = edge.connected_vertex
+                    path.append(b)
+                    break
+        path.reverse()
+        return path
+
+
 
     def closeness_centrality(self, v):
         """
@@ -404,21 +469,89 @@ class GraphWeighted:
             return 0
         return (self.v_number - 1) / sum
 
-
-    def get_graph(self):
+    def json_to_text(self, json_file, text_file):
         """
-        Returns the graph.
+        Converts a json file to a text file.
 
-        Returns
-        -------
-        graph.
+        Parameters
+        ----------
+        json_file : str
+            json file.
+        text_file : str
+            text file.
         """
+        #printar no terminal os vertices
+        vertex_list = []
 
-        return self.adj
+        with open(json_file) as f:
+            data = json.load(f)
+        with open(text_file, "w") as f:
+            
+
+            for i in data['data']['nodes']['_data']:
+                for j in data['data']['nodes']['_data'][i]:
+                    if j == "label":
+                        vertex_list.append(data['data']['nodes']['_data'][i][j])
+
+            
+
+            f.write(str(len(vertex_list)) + "\n")
+
+            for i in data['data']['edges']['_data']:
+                for j in data['data']['edges']['_data'][i]:
+                    if j == "from":
+                        print(vertex_list[data['data']['edges']['_data'][i][j]-1])
+                        f.write(vertex_list[data['data']['edges']['_data'][i][j]-1] + " ")
+                    if j == "to":
+                        print(vertex_list[data['data']['edges']['_data'][i][j]-1])
+                        f.write(vertex_list[data['data']['edges']['_data'][i][j]-1] + " ")
+                    if j == "label":
+                        print(data['data']['edges']['_data'][i][j])
+                        f.write(data['data']['edges']['_data'][i][j] + " ")
+                f.write("\n")
+                    
 
 
+
+
+
+                                        
+                                
+                                                      
+                               
+                        
+
+
+                
+                
+                                    
+        
+
+   
+         
+        
+
+
+
+            
+                
+                
+            
+
+       
+
+
+
+
+            
+
+        
+
+
+
+"""
 def generate_text_file_from_json_file(json_file, text_file):
-    """
+    
     Generates a text file from a json file.
 
     Parameters
@@ -431,7 +564,7 @@ def generate_text_file_from_json_file(json_file, text_file):
     Returns
     -------
     None.
-    """
+    
 
     with open(json_file, 'r') as f:
         data = f.read()
@@ -443,7 +576,7 @@ def generate_text_file_from_json_file(json_file, text_file):
 
 
 def generate_json_file_from_text_file(text_file, json_file):
-    """
+    
     Generates a json file from a text file.
 
     Parameters
@@ -456,7 +589,7 @@ def generate_json_file_from_text_file(text_file, json_file):
     Returns
     -------
     None.
-    """
+    
     with open(text_file, 'r') as f:
         data = f.read()
     with open(json_file, 'w') as f:
@@ -485,3 +618,4 @@ def generate_json_file_from_text_file(text_file, json_file):
         f.write("    ]\n")
         f.write("  }\n")
         f.write("}\n")
+"""

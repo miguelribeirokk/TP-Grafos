@@ -1,7 +1,23 @@
 from msilib import sequence
-from weighted_graph import *
+import os
+from functions.weighted_graph import *
+from functions.converter import *
 
-with open("Grafo.txt", "r") as f:
+
+
+
+while True:
+    try:
+        file = input("Type the directory of the .txt file: ")
+        if os.path.isfile(file):
+            break
+        else:
+            print("File not found!")
+    except:
+        print("File not found!")
+
+    
+with open(file) as f:
     v_number = int(f.readline())
     graph = GraphWeighted(v_number)
     for line in f:
@@ -60,8 +76,22 @@ print("\nCloseness centralities")
 for v in sequence:
     print(f"Closeness centrality of {v}: {graph.closeness_centrality(v)}")
 
-print("\nJson to text")
-graph.json_to_text('Grafo.json', 'Grafo.txt')
+while True:
+    try:
+        file_json = input("\nType the directory of the .json file: ")
+        if os.path.isfile(file):
+            break
+        else:
+            print("File not found!")
+    except:
+        print("File not found!")
+
+file_txt = input("\nType the name of the .txt file to converts:")
+
+
+json_to_text(file_json, file_txt)
+
+
 
 
 

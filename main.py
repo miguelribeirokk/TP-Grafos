@@ -1,10 +1,7 @@
-from msilib import sequence
 import os
-from functions.weighted_graph import *
+
 from functions.converter import *
-
-
-
+from functions.weighted_graph import *
 
 while True:
     try:
@@ -16,7 +13,6 @@ while True:
     except:
         print("File not found!")
 
-   
 with open(file) as f:
     try:
         v_number = int(f.readline())
@@ -27,15 +23,14 @@ with open(file) as f:
     except:
         print("File not formatted correctly!")
 
-
 sequence = graph.get_vertex_sequence()
 first = graph.get_first_vertex()
 
 print(
-      "\nOrder\n"
-      f"Order of the graph: {graph.get_order()}\n"
-      "\nSize\n"
-      f"Size of the graph: {graph.size()}\n"
+    "\nOrder\n"
+    f"Order of the graph: {graph.get_order()}\n"
+    "\nSize\n"
+    f"Size of the graph: {graph.size()}\n"
 )
 
 print("Neighbours")
@@ -45,16 +40,15 @@ for v in sequence:
 print("\nDegrees")
 for v in sequence:
     print(f"Degree of {v}: {graph.degree_of_vertex(v)}")
-    
+
 print("\nDFS of a graph")
 print(f"DFS traversal: {graph.dfs(first)}")
 
 print("\nNot visited in DFS")
 print(f"Not visited in DFS: {graph.dfs_not_visited()}")
 
-if (graph.bellman_ford(first) == 0):
+if graph.bellman_ford(first) == 0:
     print("Negative cycle detected!")
-    
 else:
     print("\nEccentricities")
     for v in sequence:
@@ -104,22 +98,3 @@ if int(input("Option: ")) == 1:
     print("Done!")
 
 print("Ty for using my program!")
-
-
-
-
-
-
-
-
-
-
-        
-        
-
-
-
-    
-    
-
-    

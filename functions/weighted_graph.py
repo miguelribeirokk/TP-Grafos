@@ -1,9 +1,3 @@
-from audioop import reverse
-from math import dist
-from platform import node
-from turtle import distance
-
-
 class Edge:
     """
     A class used to represent an edge.
@@ -23,7 +17,6 @@ class Edge:
         Returns a string representation of the edge.
     """
 
-
     def __init__(self, v, w):
         """
         Parameters
@@ -36,7 +29,6 @@ class Edge:
 
         self.connected_vertex = v
         self.weight = w
-
 
     def __str__(self):
         """
@@ -115,7 +107,6 @@ class GraphWeighted:
     minimum_path(self, v, w)
         Returns the minimum path between two vertices.
     """
-    
 
     def __init__(self, v_number):
         """
@@ -128,7 +119,6 @@ class GraphWeighted:
         self.v_number = v_number
         self.adj = {}
 
-    
     def get_vertex_sequence(self):
         """
         Returns a sequence of vertex.
@@ -137,7 +127,7 @@ class GraphWeighted:
         -------
         a sequence of vertex.
         """
-            
+
         return self.adj.keys()
 
     def get_first_vertex(self):
@@ -151,7 +141,6 @@ class GraphWeighted:
 
         for k, v in self.adj.items():
             return k
-
 
     def add_edge(self, a, b, w):
         """
@@ -176,7 +165,6 @@ class GraphWeighted:
         edge2 = Edge(a, w)
         self.adj[b].append(edge2)
 
-
     def get_order(self):
         """
         Returns the order of the graph.
@@ -187,7 +175,6 @@ class GraphWeighted:
         """
 
         return self.v_number
-
 
     def size(self):
         """
@@ -201,8 +188,7 @@ class GraphWeighted:
         size = 0
         for k, v in self.adj.items():
             size += len(v)
-        return size // 2 
-
+        return size // 2
 
     def get_neighbours(self, v):
         """
@@ -223,7 +209,6 @@ class GraphWeighted:
             edges.append(edge.connected_vertex)
         return edges
 
-
     def degree_of_vertex(self, v):
         """
         Returns the degree of a vertex.
@@ -240,7 +225,6 @@ class GraphWeighted:
 
         return len(self.adj[v])
 
-
     def degree_sequence(self):
         """
         Returns the degree sequence of the graph.
@@ -256,8 +240,6 @@ class GraphWeighted:
 
         degree.sort(reverse=True)
         return degree
-    
-
 
     def eccentricity(self, v):
         """
@@ -273,18 +255,14 @@ class GraphWeighted:
         eccentricity of the vertex.
         """
 
-        
-        
-
-            
         distances = self.bellman_ford(v)
-        
+
         max_distance = 0
         for k, v in distances.items():
             if v > max_distance:
                 max_distance = v
         return max_distance
-  
+
     def bellman_ford(self, vertex):
         """
         Returns the distances of all vertices from a vertex using bellman ford algorithm.
@@ -322,14 +300,13 @@ class GraphWeighted:
         -------
         radius of the graph.
         """
-    
+
         radius = float("inf")
         for k, v in self.adj.items():
             eccentricity = self.eccentricity(k)
             if eccentricity < radius:
                 radius = eccentricity
         return radius
-
 
     def diameter(self):
         """
@@ -340,13 +317,12 @@ class GraphWeighted:
         diameter of the graph.
         """
 
-        max = 0
+        maximum = 0
         for k, v in self.adj.items():
             e = self.eccentricity(k)
-            if e > max:
-                max = e
-        return max
-
+            if e > maximum:
+                maximum = e
+        return maximum
 
     def center(self):
         """
@@ -363,7 +339,6 @@ class GraphWeighted:
             if self.eccentricity(k) == r:
                 center.append(k)
         return center
-
 
     def dfs(self, v):
         """
@@ -383,7 +358,6 @@ class GraphWeighted:
         sequence = []
         self.dfs_util(v, visited, sequence)
         return sequence
-
 
     def dfs_util(self, v, visited, sequence):
         """
@@ -408,7 +382,6 @@ class GraphWeighted:
         for edge in self.adj[v]:
             if edge.connected_vertex not in visited:
                 self.dfs_util(edge.connected_vertex, visited, sequence)
-
 
     def dfs_not_visited(self):
         """
@@ -443,8 +416,7 @@ class GraphWeighted:
         """
 
         distances = self.bellman_ford(a)
-        path = []
-        path.append(b)
+        path = [b]
         while b != a:
             for edge in self.adj[b]:
                 if distances[edge.connected_vertex] + edge.weight == distances[b]:
@@ -453,8 +425,6 @@ class GraphWeighted:
                     break
         path.reverse()
         return path
-
-
 
     def closeness_centrality(self, v):
         """
@@ -471,9 +441,9 @@ class GraphWeighted:
         """
 
         dist = self.bellman_ford(v)
-        sum = 0
+        sum_bf = 0
         for k, v in dist.items():
-            sum += v
-        if sum == 0:
+            sum_bf += v
+        if sum_bf == 0:
             return 0
-        return (self.v_number - 1) / sum
+        return (self.v_number - 1) / sum_bf

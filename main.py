@@ -45,54 +45,67 @@ for v in sequence:
 print("\nDegrees")
 for v in sequence:
     print(f"Degree of {v}: {graph.degree_of_vertex(v)}")
-
-print("\nEccentricities")
-for v in sequence:
-    print(f"Eccentricity of {v}: {graph.eccentricity(v)}")
-
-print("\nRadius")
-print(f"Radius of the graph: {graph.radius()}")
-
-print("\nCenter")
-print(f"Center of the graph: {graph.center()}")
-
-print("\nDiameter")
-print(f"Diameter of the graph: {graph.diameter()}")
-
-
-
+    
 print("\nDFS of a graph")
 print(f"DFS traversal: {graph.dfs(first)}")
 
 print("\nNot visited in DFS")
 print(f"Not visited in DFS: {graph.dfs_not_visited()}")
 
-print("\nDistances")
-for v in sequence:
-    print(f"Distance from {first} to {v}: {graph.bellman_ford(first)[v]}")
+if (graph.bellman_ford(first) == 0):
+    print("Negative cycle detected!")
+    
+else:
+    print("\nEccentricities")
+    for v in sequence:
+        print(f"Eccentricity of {v}: {graph.eccentricity(v)}")
 
-print("\nMinimum path")
-for v in sequence:
-    print(f"Minimum path between {first} and {v}: {graph.minimum_path(first, v)}")
+    print("\nRadius")
+    print(f"Radius of the graph: {graph.radius()}")
 
-print("\nCloseness centralities")
-for v in sequence:
-    print(f"Closeness centrality of {v}: {graph.closeness_centrality(v)}")
+    print("\nCenter")
+    print(f"Center of the graph: {graph.center()}")
 
-while True:
-    try:
-        file_json = input("\nType the directory of the .json file: ")
-        if os.path.isfile(file_json):
-            break
-        else:
-            print("File not found!")
-    except:
-        print("File not found!")
+    print("\nDiameter")
+    print(f"Diameter of the graph: {graph.diameter()}")
 
-file_txt = input("\nType the name of the .txt file to converts:")
+    print("\nDistances")
+    for v in sequence:
+        print(f"Distance from {first} to {v}: {graph.bellman_ford(first)[v]}")
+
+    print("\nMinimum path")
+    for v in sequence:
+        print(f"Minimum path between {first} and {v}: {graph.minimum_path(first, v)}")
+
+    print("\nCloseness centralities")
+    for v in sequence:
+        print(f"Closeness centrality of {v}: {graph.closeness_centrality(v)}")
+
+print("\n\nJson to text?")
+print("1. Yes")
+print("2. No")
+if int(input("Option: ")) == 1:
+    print("Type the directory of the .json file: ")
+    json_file = input()
+    print("Type the name of the .txt file: ")
+    text_file = input()
+    json_to_text(json_file, text_file)
+    print("Done!")
+
+print("\n\nText to json?")
+print("1. Yes")
+print("2. No")
+if int(input("Option: ")) == 1:
+    print("Type the directory of the .txt file: ")
+    text_file = input()
+    print("Type the name of the .json file: ")
+    json_file = input()
+    text_to_json(text_file, json_file)
+    print("Done!")
+
+print("Ty for using my program!")
 
 
-json_to_text(file_json, file_txt)
 
 
 

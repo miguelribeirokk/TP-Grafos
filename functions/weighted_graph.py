@@ -1,5 +1,7 @@
 from audioop import reverse
+from math import dist
 from platform import node
+from turtle import distance
 
 
 class Edge:
@@ -113,7 +115,7 @@ class GraphWeighted:
     minimum_path(self, v, w)
         Returns the minimum path between two vertices.
     """
-
+    
 
     def __init__(self, v_number):
         """
@@ -126,7 +128,7 @@ class GraphWeighted:
         self.v_number = v_number
         self.adj = {}
 
-    #retorna um vertice do grafo
+    
     def get_vertex_sequence(self):
         """
         Returns a sequence of vertex.
@@ -270,14 +272,19 @@ class GraphWeighted:
         -------
         eccentricity of the vertex.
         """
+
+        
+        
+
             
         distances = self.bellman_ford(v)
+        
         max_distance = 0
         for k, v in distances.items():
             if v > max_distance:
                 max_distance = v
         return max_distance
-
+  
     def bellman_ford(self, vertex):
         """
         Returns the distances of all vertices from a vertex using bellman ford algorithm.
@@ -291,7 +298,7 @@ class GraphWeighted:
         -------
         dictionary of distances.
         """
-        #bellman ford algorithm, retorna nulo se tiver ciclo negativo
+
         distances = {}
         for k, v in self.adj.items():
             distances[k] = float("inf")
@@ -301,10 +308,11 @@ class GraphWeighted:
                 for edge in v:
                     if distances[k] + edge.weight < distances[edge.connected_vertex]:
                         distances[edge.connected_vertex] = distances[k] + edge.weight
+        for k, v in self.adj.items():
+            for edge in v:
+                if distances[k] + edge.weight < distances[edge.connected_vertex]:
+                    return 0
         return distances
-
-
-        
 
     def radius(self):
         """
@@ -314,7 +322,7 @@ class GraphWeighted:
         -------
         radius of the graph.
         """
-
+    
         radius = float("inf")
         for k, v in self.adj.items():
             eccentricity = self.eccentricity(k)
@@ -469,51 +477,3 @@ class GraphWeighted:
         if sum == 0:
             return 0
         return (self.v_number - 1) / sum
-
-    
-
-""""
-def generate_json_file_from_text_file(text_file, json_file):
-    
-    Generates a json file from a text file.
-
-    Parameters
-    ----------
-    text_file : str
-        text file.
-    json_file : str
-        json file.
-
-    Returns
-    -------
-    None.
-    
-    with open(text_file, 'r') as f:
-        data = f.read()
-    with open(json_file, 'w') as f:
-        f.write("{\n")
-        f.write("  \"graph\": {\n")
-        f.write("    \"nodes\": [\n")
-        for i in range(int(data[0])):
-            f.write("      {\n")
-            f.write("        \"id\": \"" + str(i) + "\",\n")
-            f.write("        \"label\": \"" + str(i) + "\"\n")
-            if i == int(data[0]) - 1:
-                f.write("      }\n")
-            else:
-                f.write("      },\n")
-        f.write("    ],\n")
-        f.write("    \"edges\": [\n")
-        for i in range(int(data[0])):
-            f.write("      {\n")
-            f.write("        \"source\": \"" + str(i) + "\",\n")
-            f.write("        \"target\": \"" + str(i) + "\",\n")
-            f.write("        \"label\": \"" + str(i) + "\"\n")
-            if i == int(data[0]) - 1:
-                f.write("      }\n")
-            else:
-                f.write("      },\n")
-        f.write("    ]\n")
-        f.write("  }\n")
-        f.write("}\n")
-"""

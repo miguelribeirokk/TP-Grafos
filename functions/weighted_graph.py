@@ -48,7 +48,7 @@ class GraphWeighted:
     ----------
     v_number : int
         an integer that represents the number of vertices.
-    adj : dict
+    adj : 
         a dictionary that represents the adjacency list of the graph.
 
     Methods
@@ -417,6 +417,18 @@ class GraphWeighted:
 
         distances = self.bellman_ford(a)
         path = [b]
+        #se não tiver caminho entre os dois vertices, retorna 0
+        if distances[b] == float("inf"):
+            return 0
+        while b != a:
+            for edge in self.adj[b]:
+                if distances[b] - edge.weight == distances[edge.connected_vertex]:
+                    path.append(edge.connected_vertex)
+                    b = edge.connected_vertex
+                    break
+        path.reverse()
+        
+        ''''
         while b != a:
             for edge in self.adj[b]:
                 if distances[edge.connected_vertex] + edge.weight == distances[b]:
@@ -424,7 +436,9 @@ class GraphWeighted:
                     path.append(b)
                     break
         path.reverse()
+        '''
         return path
+
 
     def closeness_centrality(self, v):
         """

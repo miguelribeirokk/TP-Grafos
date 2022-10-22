@@ -1,7 +1,7 @@
 # TP01-Grafos
 Trabalho Prático 1 da disciplina de Grafos
 
-# Para compilar:
+# Para executar:
 Necessário python3 instalado
-python3 main.py
 
+python3 main.py

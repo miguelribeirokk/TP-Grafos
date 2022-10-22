@@ -392,12 +392,11 @@ class GraphWeighted:
         list of vertices that were not visited by the dfs.
         """
 
-        visited = {}
-        sequence = []
+        not_visited = []
         for k, v in self.adj.items():
-            if k in visited:
-                self.dfs_util(k, visited, sequence)
-        return sequence
+            if k not in self.dfs(self.get_first_vertex()):
+                not_visited.append(k)
+        return not_visited
 
     def minimum_path(self, a, b):
         """
@@ -427,7 +426,7 @@ class GraphWeighted:
                     b = edge.connected_vertex
                     break
         path.reverse()
-        
+
         ''''
         while b != a:
             for edge in self.adj[b]:

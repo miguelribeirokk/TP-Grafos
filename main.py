@@ -41,6 +41,9 @@ print("\nDegrees")
 for v in sequence:
     print(f"Degree of {v}: {graph.degree_of_vertex(v)}")
 
+print("Degree sequence")
+print(f"Degree sequence: {graph.degree_sequence()}")
+
 print("\nDFS of a graph")
 print(f"DFS traversal: {graph.dfs(first)}")
 

@@ -1,3 +1,4 @@
+
 class Edge:
     """
     A class used to represent an edge.
@@ -460,3 +461,150 @@ class GraphWeighted:
         if sum_bf == 0:
             return 0
         return (self.v_number - 1) / sum_bf
+
+    '''
+    TP02 - Questão 1
+    '''
+
+    def has_cycle(self):
+        """
+        Returns if the graph has a cycle.
+
+        Returns
+        -------
+        True if the graph has a cycle, False otherwise.
+        """
+
+        for k, v in self.adj.items():
+            if self.has_cycle_util(k, k, {}):
+                return True
+        return False
+
+    def has_cycle_util(self, v, parent, visited):
+        """
+        Helper function for has_cycle.
+
+        Parameters
+        ----------
+        v : int
+            a vertex.
+        parent : int
+            parent of the vertex.
+        visited : dict
+            dictionary of visited vertices.
+
+        Returns
+        -------
+        True if the graph has a cycle, False otherwise.
+        """
+
+        visited[v] = True
+        for edge in self.adj[v]:
+            if edge.connected_vertex not in visited:
+                if self.has_cycle_util(edge.connected_vertex, v, visited):
+                    return True
+            elif edge.connected_vertex != parent:
+                return True
+        return False
+
+    '''
+    TP02 - Questão 3
+    '''
+
+    def VertexList(self):
+        """
+        Returns a list of vertices.
+
+        Returns
+        -------
+        list of vertices.
+        """
+
+        return list(self.adj.keys())
+
+    def minimumVertexCoverHeuristic(self):
+        """
+        Returns the minimum vertex cover of the graph using a heuristic.
+
+        Returns
+        -------
+        the minimum vertex cover of the graph.
+        """
+
+        cover = []
+        nC = 0
+
+        V = self.VertexList()
+
+        V.sort(key=lambda x: len(self.adj[x]), reverse=True)
+
+
+        M = []
+        for k, v in self.adj.items():
+            for edge in v:
+                M.append((k, edge.connected_vertex))
+    
+        while len(M) != 0:
+            
+            k = V[0]
+            
+            V.remove(k)
+            cover.append(k)
+            
+            neighborsofK = []
+            for edge in self.adj[k]:
+                neighborsofK.append(edge.connected_vertex)
+            
+            for v in neighborsofK:
+                for a in M:
+                    if (k, v) in M:
+                        M.remove((k, v))
+                    if (v, k) in M:
+                        M.remove((v, k))
+            nC += 1
+        return cover
+
+
+           
+
+
+
+
+           
+
+
+
+
+                
+
+
+        print("nC: ", nC)
+        return cover
+
+
+
+
+        
+
+        
+
+
+
+
+    
+
+
+        
+
+
+        
+    
+
+
+
+
+
+
+
+
+

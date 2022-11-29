@@ -587,3 +587,25 @@ class GraphWeighted:
                         M.remove((v, k))
             nC += 1
         return cover
+
+
+    """"
+    TP02 - Questão 4
+    """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

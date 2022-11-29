@@ -3,6 +3,7 @@ import os
 from functions.converter import *
 from functions.weighted_graph import *
 
+
 while True:
     try:
         file = input("Type the directory of the .txt file: ")
@@ -10,7 +11,7 @@ while True:
             break
         else:
             print("File not found!")
-    except:
+    except FileNotFoundError:
         print("File not found!")
 
 with open(file) as f:
@@ -31,7 +32,5 @@ print(
     f"Has cycle?: {graph.has_cycle()}\n"
 )
 
-print(
-    "\nMinimum Vertex Cover\n"
-    f"Final result: {graph.minimumVertexCoverHeuristic()}, with {len(graph.minimumVertexCoverHeuristic())} vertices\n"
-)
+print("\nMinimum Vertex Cover\n"
+      f"Final result: {graph.minimum_vertex_cover_heuristic()}, with {len(graph.minimum_vertex_cover_heuristic())} vertices\n")

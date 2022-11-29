@@ -3,6 +3,7 @@ import os
 from functions.converter import *
 from functions.weighted_graph import *
 
+
 while True:
     try:
         file = input("Type the directory of the .txt file: ")

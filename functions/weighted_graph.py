@@ -1,4 +1,3 @@
-
 class Edge:
     """
     A class used to represent an edge.
@@ -18,6 +17,7 @@ class Edge:
         Returns a string representation of the edge.
     """
 
+
     def __init__(self, v, w):
         """
         Parameters
@@ -30,6 +30,7 @@ class Edge:
 
         self.connected_vertex = v
         self.weight = w
+
 
     def __str__(self):
         """
@@ -109,6 +110,7 @@ class GraphWeighted:
         Returns the minimum path between two vertices.
     """
 
+
     def __init__(self, v_number):
         """
         Parameters
@@ -119,6 +121,7 @@ class GraphWeighted:
 
         self.v_number = v_number
         self.adj = {}
+
 
     def get_vertex_sequence(self):
         """
@@ -131,6 +134,7 @@ class GraphWeighted:
 
         return self.adj.keys()
 
+
     def get_first_vertex(self):
         """
         Returns the first vertex of the graph.
@@ -142,6 +146,7 @@ class GraphWeighted:
 
         for k, v in self.adj.items():
             return k
+
 
     def add_edge(self, a, b, w):
         """
@@ -166,6 +171,7 @@ class GraphWeighted:
         edge2 = Edge(a, w)
         self.adj[b].append(edge2)
 
+
     def get_order(self):
         """
         Returns the order of the graph.
@@ -176,6 +182,7 @@ class GraphWeighted:
         """
 
         return self.v_number
+
 
     def size(self):
         """
@@ -190,6 +197,7 @@ class GraphWeighted:
         for k, v in self.adj.items():
             size += len(v)
         return size // 2
+
 
     def get_neighbours(self, v):
         """
@@ -210,6 +218,7 @@ class GraphWeighted:
             edges.append(edge.connected_vertex)
         return edges
 
+
     def degree_of_vertex(self, v):
         """
         Returns the degree of a vertex.
@@ -226,6 +235,7 @@ class GraphWeighted:
 
         return len(self.adj[v])
 
+
     def degree_sequence(self):
         """
         Returns the degree sequence of the graph.
@@ -241,6 +251,7 @@ class GraphWeighted:
 
         degree.sort(reverse=True)
         return degree
+
 
     def eccentricity(self, v):
         """
@@ -263,6 +274,7 @@ class GraphWeighted:
             if v > max_distance:
                 max_distance = v
         return max_distance
+
 
     def bellman_ford(self, vertex):
         """
@@ -293,6 +305,7 @@ class GraphWeighted:
                     return 0
         return distances
 
+
     def radius(self):
         """
         Returns the radius of the graph.
@@ -308,6 +321,7 @@ class GraphWeighted:
             if eccentricity < radius:
                 radius = eccentricity
         return radius
+
 
     def diameter(self):
         """
@@ -325,6 +339,7 @@ class GraphWeighted:
                 maximum = e
         return maximum
 
+
     def center(self):
         """
         Returns the center of the graph.
@@ -340,6 +355,7 @@ class GraphWeighted:
             if self.eccentricity(k) == r:
                 center.append(k)
         return center
+
 
     def dfs(self, v):
         """
@@ -359,6 +375,7 @@ class GraphWeighted:
         sequence = []
         self.dfs_util(v, visited, sequence)
         return sequence
+
 
     def dfs_util(self, v, visited, sequence):
         """
@@ -384,6 +401,7 @@ class GraphWeighted:
             if edge.connected_vertex not in visited:
                 self.dfs_util(edge.connected_vertex, visited, sequence)
 
+
     def dfs_not_visited(self):
         """
         Returns vertices that were not visited by the dfs.
@@ -398,6 +416,7 @@ class GraphWeighted:
             if k not in self.dfs(self.get_first_vertex()):
                 not_visited.append(k)
         return not_visited
+
 
     def minimum_path(self, a, b):
         """
@@ -417,7 +436,7 @@ class GraphWeighted:
 
         distances = self.bellman_ford(a)
         path = [b]
-        #se não tiver caminho entre os dois vertices, retorna 0
+        # se não tiver caminho entre os dois vertices, retorna 0
         if distances[b] == float("inf"):
             return 0
         while b != a:
@@ -462,9 +481,11 @@ class GraphWeighted:
             return 0
         return (self.v_number - 1) / sum_bf
 
+
     '''
     TP02 - Questão 1
     '''
+
 
     def has_cycle(self):
         """
@@ -479,6 +500,7 @@ class GraphWeighted:
             if self.has_cycle_util(k, k, {}):
                 return True
         return False
+
 
     def has_cycle_util(self, v, parent, visited):
         """
@@ -507,11 +529,13 @@ class GraphWeighted:
                 return True
         return False
 
+
     '''
     TP02 - Questão 3
     '''
 
-    def VertexList(self):
+
+    def vertex_list(self):
         """
         Returns a list of vertices.
 
@@ -522,7 +546,8 @@ class GraphWeighted:
 
         return list(self.adj.keys())
 
-    def minimumVertexCoverHeuristic(self):
+
+    def minimum_vertex_cover_heuristic(self):
         """
         Returns the minimum vertex cover of the graph using a heuristic.
 
@@ -534,27 +559,26 @@ class GraphWeighted:
         cover = []
         nC = 0
 
-        V = self.VertexList()
+        V = self.vertex_list()
 
         V.sort(key=lambda x: len(self.adj[x]), reverse=True)
-
 
         M = []
         for k, v in self.adj.items():
             for edge in v:
                 M.append((k, edge.connected_vertex))
-    
+
         while len(M) != 0:
-            
+
             k = V[0]
-            
+
             V.remove(k)
             cover.append(k)
-            
+
             neighborsofK = []
             for edge in self.adj[k]:
                 neighborsofK.append(edge.connected_vertex)
-            
+
             for v in neighborsofK:
                 for a in M:
                     if (k, v) in M:
@@ -563,48 +587,3 @@ class GraphWeighted:
                         M.remove((v, k))
             nC += 1
         return cover
-
-
-           
-
-
-
-
-           
-
-
-
-
-                
-
-
-        print("nC: ", nC)
-        return cover
-
-
-
-
-        
-
-        
-
-
-
-
-    
-
-
-        
-
-
-        
-    
-
-
-
-
-
-
-
-
-

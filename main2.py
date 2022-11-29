@@ -36,4 +36,4 @@ print("\nMinimum Vertex Cover\n"
       f"Final result: {graph.minimum_vertex_cover_heuristic()}, with {len(graph.minimum_vertex_cover_heuristic())} vertices\n")
 
 print(f"Maximum matching\n"
-      f"Final result: {graph.maximum_matching().values()} \n")
+      f"Final result: {graph.maximum_matching()} \n")

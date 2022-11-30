@@ -603,6 +603,10 @@ class GraphWeighted:
                         break
         return matches
 
+    """
+    TP02 - Questão 3
+    """
+    
     def edge_weight(self, v, w):
         """
         Returns the weight of the edge connected to v and w.
@@ -622,6 +626,8 @@ class GraphWeighted:
         for edge in self.adj[v]:
             if edge.connected_vertex == w:
                 return edge.weight
+
+
     def minimum_spanning_tree(self, s):
         """
         Returns the minimum spanning tree of the graph.
@@ -666,12 +672,12 @@ class GraphWeighted:
             T.append(w)
             V.remove(w)
             c += self.edge_weight(v, w)
-
         s = s.removesuffix('.txt')
-        s = s + 'MST'
+        s = s + 'MST.txt'
         with open(s, 'w') as f:
             f.write(f"{self.v_number}\n")
             f.write(f"{c}\n")
             for i in range (self.v_number - 1):
                 f.write(f"{Tmin[i]}\n")
+
         f.close()

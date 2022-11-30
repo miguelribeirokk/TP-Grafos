@@ -48,7 +48,7 @@ class GraphWeighted:
     ----------
     v_number : int
         an integer that represents the number of vertices.
-    adj : 
+    adj :
         a dictionary that represents the adjacency list of the graph.
 
     Methods
@@ -565,7 +565,7 @@ class GraphWeighted:
     TP02 - Questão 4
     """
 
-    # Max matching using Edmonds's Blossom Algorithm
+    # Maximum cardinality matching
     def maximum_matching(self):
         """
         Returns the maximum matching of the graph.
@@ -575,114 +575,30 @@ class GraphWeighted:
         the maximum matching of the graph.
         """
 
-        # Initialize the matching M as empty
-        M = []
-
-        # While there exists an augmenting path P
-        while self.augmenting_path(M) is not None:
-            # Augment M along P
-            P = self.augmenting_path(M)
-            for i in range(0, len(P) - 1, 2):
-                M.append((P[i], P[i + 1]))
-        return M
-
-    def augmenting_path(self, M):
-        """
-        Returns an augmenting path of the graph.
-
-        Parameters
-        ----------
-        M : list
-            the matching.
-
-        Returns
-        -------
-        an augmenting path of the graph.
-        """
-
-        # Initialize the set of visited vertices as empty
-        visited = []
-
-        # Initialize the queue Q with all free vertices
-        Q = []
-        for v in self.vertex_list():
-            if self.is_free(v, M):
-                Q.append(v)
-
-        # Initialize the tree T as empty
-        T = {}
-
-        # While Q is not empty
-        while len(Q) != 0:
-            # Dequeue a vertex v from Q
-            v = Q.pop(len(Q) - 1)
-
-            # For each edge (v, w) in E
-            for edge in self.adj[v]:
-                w = edge.connected_vertex
-                # If w is free
-                if self.is_free(w, M):
-                    # Return the alternating path P from v to w
-                    return self.alternating_path(v, w, T)
-                # Else if w is not visited
-                elif w not in visited:
-                    # Mark w as visited
-                    visited.append(w)
-
-                    # Add w to Q
-                    Q.append(w)
-
-                    # Add (v, w) to T
-                    T[w] = v
-
-                    # Add (w, v) to T
-                    T[v] = w
-
-        # Return null
-        return None
-
-    def is_free(self, v, M):
-        """
-        Returns if the vertex is free.
-
-        Parameters
-        ----------
-        v : int
-            a vertex.
-        M : list
-            the matching.
-
-        Returns
-        -------
-        True if the vertex is free, False otherwise.
-        """
-
-        for e in M:
-            if v in e:
-                return False
-        return True
-
-    def alternating_path(self, v, w, T):
-        """
-        Returns an alternating path of the graph.
-
-        Parameters
-        ----------
-        v : int
-            a vertex.
-        w : int
-            a vertex.
-        T : dict
-            the tree.
-
-        Returns
-        -------
-        an alternating path of the graph.
-        """
-
-        P = [v, w]
-        while v in T:
-            P.insert(0, T[v])
-            v = T[v]
-            P.insert(1, v)
-        return P
+        # list of matches
+        matches = []
+        # list of vertices
+        vertices = self.vertex_list()
+        # list of vertices that are not matched
+        not_matched = vertices
+        # list of vertices that are matched
+        matched = []
+        # while there are vertices that are not matched
+        while not_matched:
+            # for each vertex in not matched
+            for v in not_matched:
+                # for each edge connected to the vertex
+                for edge in self.adj[v]:
+                    # if the connected vertex is not matched
+                    if v not in matched:
+                        matches.append(v)
+                        not_matched.remove(v)
+                        matched.append(v)
+                    if edge.connected_vertex not in matched:
+                        # add the vertex and the connected vertex to the matches
+                        matches.append(edge.connected_vertex)
+                        # remove the vertex and the connected vertex from the lists
+                        not_matched.remove(edge.connected_vertex)
+                        matched.append(edge.connected_vertex)
+                        break
+        return matches

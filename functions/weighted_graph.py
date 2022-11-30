@@ -602,3 +602,76 @@ class GraphWeighted:
                         matched.append(edge.connected_vertex)
                         break
         return matches
+
+    def edge_weight(self, v, w):
+        """
+        Returns the weight of the edge connected to v and w.
+
+        Parameters
+        ----------
+        v : int
+            a vertex.
+        w : int
+            a vertex.
+
+        Returns
+        -------
+        The weight of the edge connected to v1 and v2.
+        """
+
+        for edge in self.adj[v]:
+            if edge.connected_vertex == w:
+                return edge.weight
+    def minimum_spanning_tree(self, s):
+        """
+        Returns the minimum spanning tree of the graph.
+
+        Parameters
+        ----------
+        s : string
+            name for the file that will be created.
+
+        Returns
+        -------
+        a txt file with the minimum spanning tree of the graph.
+        """
+
+        V = self.vertex_list()
+        T = []
+        T.append(self.get_first_vertex())
+        V.pop(0)
+        Tmin = []
+        c = 0
+
+        while len(T) < self.v_number:
+            found = False
+            for j in T:
+                for k in V:
+                    if k in self.get_neighbours(j):
+                        minW = self.edge_weight(j, k)
+                        v = j
+                        w = k
+                        found = True
+                        break
+                if found:
+                    break
+            for j in T:
+                for k in V:
+                    if k in self.get_neighbours(j):
+                        if self.edge_weight(j, k) < minW:
+                            minW = self.edge_weight(j, k)
+                            v = j
+                            w = k
+            Tmin.append(f"{v} {w} {self.edge_weight(v, w)}")
+            T.append(w)
+            V.remove(w)
+            c += self.edge_weight(v, w)
+
+        s = s.removesuffix('.txt')
+        s = s + 'MST'
+        with open(s, 'w') as f:
+            f.write(f"{self.v_number}\n")
+            f.write(f"{c}\n")
+            for i in range (self.v_number - 1):
+                f.write(f"{Tmin[i]}\n")
+        f.close()

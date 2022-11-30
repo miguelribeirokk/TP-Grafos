@@ -32,7 +32,11 @@ print(
     f"Has cycle?: {graph.has_cycle()}\n"
 )
 
-print("\nMinimum Vertex Cover\n"
+graph.minimum_spanning_tree(file)
+print("Minimum Spanning Tree\n"
+      f"File name: {file.removesuffix('.txt')}MST.txt\n")
+
+print("Minimum Vertex Cover\n"
       f"Final result: {graph.minimum_vertex_cover_heuristic()}, with {len(graph.minimum_vertex_cover_heuristic())} vertices\n")
 
 print(f"Maximum matching\n"

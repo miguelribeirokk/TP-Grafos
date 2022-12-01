@@ -561,47 +561,7 @@ class GraphWeighted:
             nC += 1
         return cover
 
-    """"
-    TP02 - Questão 4
-    """
 
-    # Maximum cardinality matching
-    def maximum_matching(self):
-        """
-        Returns the maximum matching of the graph.
-
-        Returns
-        -------
-        the maximum matching of the graph.
-        """
-
-        # list of matches
-        matches = []
-        # list of vertices
-        vertices = self.vertex_list()
-        # list of vertices that are not matched
-        not_matched = vertices
-        # list of vertices that are matched
-        matched = []
-        # while there are vertices that are not matched
-        while not_matched:
-            # for each vertex in not matched
-            for v in not_matched:
-                # for each edge connected to the vertex
-                for edge in self.adj[v]:
-                    # if the connected vertex is not matched
-                    if v not in matched:
-                        matches.append(v)
-                        not_matched.remove(v)
-                        matched.append(v)
-                    if edge.connected_vertex not in matched:
-                        # add the vertex and the connected vertex to the matches
-                        matches.append(edge.connected_vertex)
-                        # remove the vertex and the connected vertex from the lists
-                        not_matched.remove(edge.connected_vertex)
-                        matched.append(edge.connected_vertex)
-                        break
-        return matches
 
     """
     TP02 - Questão 3
@@ -687,3 +647,36 @@ class GraphWeighted:
             return True
         else:
             return False
+
+    """"
+    TP02 - Questão 4
+    """
+
+    # Maximum cardinality matching
+    def maximum_matching(self):
+        """
+        Returns the maximum matching of the graph.
+
+        Returns
+        -------
+        the maximum matching of the graph.
+        """
+
+        
+        matches = []
+        vertices = self.vertex_list()
+        not_matched = vertices
+        matched = []
+        while not_matched:
+            for v in not_matched:
+                for edge in self.adj[v]:
+                    if v not in matched:
+                        matches.append(v)
+                        not_matched.remove(v)
+                        matched.append(v)
+                    if edge.connected_vertex not in matched:
+                        matches.append(edge.connected_vertex)
+                        not_matched.remove(edge.connected_vertex)
+                        matched.append(edge.connected_vertex)
+                        break
+        return matches

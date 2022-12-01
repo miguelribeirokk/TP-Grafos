@@ -606,7 +606,7 @@ class GraphWeighted:
     """
     TP02 - Questão 3
     """
-    
+
     def edge_weight(self, v, w):
         """
         Returns the weight of the edge connected to v and w.

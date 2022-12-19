@@ -1,5 +1,5 @@
 # TP-Grafos
-Trabalho Prático 1 e 2 da disciplina de Grafos
+Trabalhos Práticos 1 e 2 da disciplina de Grafos
 
 # Para executar:
 Necessário python3 instalado
